@@ -5,13 +5,17 @@ namespace Inputs {
     bool buttonLastState[buttonCount] = {false, false, false, false, false, false};
     bool buttonChanged[buttonCount] = {false, false, false, false, false, false};
     uint32_t buttonLastChange[buttonCount] = {0, 0, 0, 0, 0, 0};
-//    Type4067Mux mux(4, INPUT_PULLUP, DIGITAL, 8, 7, 6, 5); // can be reduced to one input pin
-//    Encoder rotaryEncoder(ENCODER_TIME_PIN_1, ENCODER_TIME_PIN_2);
+    Mux mux(
+        Pin(MUX_SIG, INPUT_PULLUP, PinType::Digital),
+        Pinset(MUX_S0, MUX_S1, MUX_S2, MUX_S3),
+        MUX_EN
+    );
+    Encoder rotaryEncoder(ENCODER_TIME_PIN_1, ENCODER_TIME_PIN_2);
 
     void update() {
         for (int i = 0; i < buttonCount; i++) {
             uint32_t ms = millis();
-            int buttonValue = 0; //(bool)mux.read(buttonPins[i]);
+            int buttonValue = (bool)mux.read(buttonPins[i]);
             buttonValue = !buttonValue;
 
             if ((ms - buttonLastChange[i]) < BUTTON_DEBOUNCE_DELAY) {
@@ -52,11 +56,10 @@ namespace Inputs {
     }
 
     int32_t readEncoder() {
-        // return (int)(rotaryEncoder.read() / 4);
-        return 0;
+        return (int)(rotaryEncoder.read() / 4);
     }
 
     void resetEncoder() {
-        // rotaryEncoder.write(0);
+        rotaryEncoder.write(0);
     }
 }

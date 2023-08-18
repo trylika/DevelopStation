@@ -8,7 +8,7 @@ namespace Displays {
 
     void setup() {
         for (uint8_t i = 0; i < DISPLAY_COUNT; i++) {
-            displays[i].setBrightness(2); // 1 - 7
+            displays[i].setBrightness(3); // 1 - 7
             displays[i].setSegments(displayFull);
         }
     }

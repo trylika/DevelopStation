@@ -3,8 +3,17 @@
 
 #include <stdint.h>
 #include <Arduino.h>
-// #include <Type4067Mux.h>
-// #include <Encoder.h>
+#include <Mux.h>
+#include <Encoder.h>
+
+using namespace admux;
+
+#define MUX_SIG 4
+#define MUX_EN 9
+#define MUX_S0 8
+#define MUX_S1 7
+#define MUX_S2 6
+#define MUX_S3 5
 
 #define BUTTON_DEBOUNCE_DELAY 25
 
@@ -15,7 +24,6 @@
 #define BUTTON_STOP_WATCH_START_PAUSE 14
 #define BUTTON_STOP_WATCH_STOP 13
 #define BUTTON_STOP_WATCH_ALARM_SELECTOR_PRECISION 15
-
 
 #define ENCODER_TIME_PIN_1 0
 #define ENCODER_TIME_PIN_2 1
