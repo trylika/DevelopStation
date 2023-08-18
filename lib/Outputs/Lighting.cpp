@@ -8,8 +8,9 @@ namespace Lighting {
         digitalWrite(LIGHTING_PIN, HIGH);
     }
 
-    void toggleEnabled() {
-        enabled = !enabled;
+    void setEnabled(bool value) {
+        enabled = value;
+
         if (enabled) {
             digitalWrite(LIGHTING_PIN, HIGH);
         } else {

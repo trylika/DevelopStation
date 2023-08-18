@@ -13,6 +13,6 @@
 void setup();
 void loop();
 void inputActionPressed(uint8_t input);
-void inputActionToggled(uint8_t input);
+void inputActionReleased(uint8_t input);
 
 #endif

@@ -57,8 +57,7 @@ namespace StopWatch {
         }
 
         Displays::update(
-            DISPLAY_TWO_ID,
-            true,
+            DISPLAY_CLOCK_ID,
             Displays::calculateDisplayableTime(getTimeToShow()),
             timeDisplayableDot
         );
@@ -74,11 +73,10 @@ namespace StopWatch {
         }
 
         if (blinking && mode == STOP_WATCH_MODE_STOPPED) {
-            Displays::update(DISPLAY_TWO_ID, false);
+            Displays::clear(DISPLAY_CLOCK_ID);
         } else {
             Displays::update(
-                DISPLAY_TWO_ID,
-                true,
+                DISPLAY_CLOCK_ID,
                 Displays::calculateDisplayableTime(getTimeToShow()),
                 Displays::displayMiddleDot
             );
@@ -91,8 +89,7 @@ namespace StopWatch {
         }
 
         Displays::update(
-            DISPLAY_TWO_ID,
-            true,
+            DISPLAY_CLOCK_ID,
             Displays::calculateDisplayableTime(alarmTime),
             Displays::displayMiddleDot
         );
@@ -114,7 +111,7 @@ namespace StopWatch {
 
     void processAlarm() {
         if ((timePassed % 60) > 50 && Timer::updateSecond) {
-            Speaker::play();
+            Speaker::playShort();
         }
 
         if (alarmTime == 0) {
@@ -163,22 +160,12 @@ namespace StopWatch {
             alarmInputDiff = alarmInput - alarmInputLast;
             alarmInputLast = alarmInput;
 
-            alarmTime = constrain(alarmTime + alarmInputDiff, 0, 5999); // 99minutes 59seconds
+            alarmTime = constrain(alarmTime + alarmInputDiff, 0, 5999); // Max displayable time 99minutes 59seconds
             updateAlarmDisplay(true);
         }
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    void toggleEnabled() {
-        enabled = !enabled;
-        if (enabled) {
-            reset();
-            update(true);
-        } else {
-            Displays::update(DISPLAY_TWO_ID, false);
-        }
-    }
 
     void startPauseAction() {
         if (!enabled) {

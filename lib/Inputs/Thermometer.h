@@ -9,12 +9,12 @@
 
 #define ONEWIRE_PIN 15
 #define SENSOR_RESOLUTION 12
+#define SENSOR_COUNT 2
 
 namespace Thermometer {
     extern float temperatureCelcius;
 
     void setup();
-    void toggleEnabled();
     void update(bool force = false);
 }
 

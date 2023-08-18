@@ -1,10 +1,10 @@
 #include "Inputs.h"
 
 namespace Inputs {
-    bool buttonState[buttonCount] = {false, false, false, false, false, false};
-    bool buttonLastState[buttonCount] = {false, false, false, false, false, false};
-    bool buttonChanged[buttonCount] = {false, false, false, false, false, false};
-    uint32_t buttonLastChange[buttonCount] = {0, 0, 0, 0, 0, 0};
+    bool buttonState[buttonCount] = {false, false, false, false, false};
+    bool buttonLastState[buttonCount] = {false, false, false, false, false};
+    bool buttonChanged[buttonCount] = {false, false, false, false, false};
+    uint32_t buttonLastChange[buttonCount] = {0, 0, 0, 0, 0};
     Mux mux(
         Pin(MUX_SIG, INPUT_PULLUP, PinType::Digital),
         Pinset(MUX_S0, MUX_S1, MUX_S2, MUX_S3),
@@ -47,7 +47,7 @@ namespace Inputs {
         }
     }
 
-    void processToggled(void (*action)(uint8_t)) {
+    void processChanged(void (*action)(uint8_t)) {
         for(int i = 0; i < buttonCount; i++) {
             if(buttonChanged[i]) {
                 action(buttonPins[i]);

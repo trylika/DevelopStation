@@ -31,7 +31,6 @@ namespace StopWatch {
     void toggleAlarmSelectorPrecision();
     void alarmSelector();
 
-    void toggleEnabled();
     void startPauseAction();
     void stopAction();
 

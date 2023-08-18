@@ -2,8 +2,9 @@
 
 namespace Displays {
     TM1637Display displays[DISPLAY_COUNT] = {
-        TM1637Display (DISPLAY_ONE_CLK, DISPLAY_ONE_DIO),
-        TM1637Display (DISPLAY_TWO_CLK, DISPLAY_TWO_DIO),
+        TM1637Display (DISPLAY_CLOCK_CLK, DISPLAY_CLOCK_DIO),
+        TM1637Display (DISPLAY_VALUE_ONE_CLK, DISPLAY_VALUE_ONE_DIO),
+        TM1637Display (DISPLAY_VALUE_TWO_CLK, DISPLAY_VALUE_TWO_DIO),
     };
 
     void setup() {
@@ -13,12 +14,16 @@ namespace Displays {
         }
     }
 
-    void update(uint8_t id, bool enabled, uint32_t data, uint8_t dots) {
-        if (enabled) {
-            displays[id].showNumberDecEx(data, dots, true);
-        } else {
-            displays[id].setSegments(displayClear);
-        }
+    void update(uint8_t id, uint32_t data, uint8_t dots) {
+        displays[id].showNumberDecEx(data, dots, true);
+    }
+
+    void clear(uint8_t id) {
+        displays[id].setSegments(displayClear);
+    }
+
+    void noData(uint8_t id) {
+        displays[id].setSegments(displayNoData);
     }
 
     int32_t calculateDisplayableTime(int32_t secondsToDisplay) {

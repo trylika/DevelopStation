@@ -1,13 +1,17 @@
 #include "main.h"
 
 void setup(void) {
+    // Debug
     Serial.begin(115200);
-    // Serial.print("Temperature = "); Serial.print(temperatureCelcius); Serial.println(" Celsius");
 
+    // Inputs
     Timer::setup();
-    Displays::setup();
     Thermometer::setup();
+
+    // Outputs
+    Displays::setup();
     Lighting::setup();
+    Speaker::setup();
 }
 
 void loop(void) {
@@ -15,7 +19,7 @@ void loop(void) {
 
     Inputs::update();
     Inputs::processPressed(&inputActionPressed);
-    Inputs::processToggled(&inputActionToggled);
+    Inputs::processReleased(&inputActionReleased);
 
     Thermometer::update();
 
@@ -25,21 +29,32 @@ void loop(void) {
 }
 
 void inputActionPressed(uint8_t input) {
-    if (input == BUTTON_STOP_WATCH_START_PAUSE) {
-        StopWatch::startPauseAction();
-    } else if (input == BUTTON_STOP_WATCH_STOP) {
-        StopWatch::stopAction();
-    } else if (input == BUTTON_STOP_WATCH_ALARM_SELECTOR_PRECISION) {
-        StopWatch::toggleAlarmSelectorPrecision();
+    switch (input) {
+        case BUTTON_STOP_WATCH_START_PAUSE:
+            StopWatch::startPauseAction();
+            break;
+        case BUTTON_STOP_WATCH_STOP:
+            StopWatch::stopAction();
+            break;
+        case BUTTON_STOP_WATCH_ALARM_SELECTOR_PRECISION:
+            StopWatch::toggleAlarmSelectorPrecision();
+            break;
+        case BUTTON_LIGHTING_TOGGLE:
+            Lighting::setEnabled(false);
+            break;
+        case BUTTON_SPEAKER_TOGGLE:
+            Speaker::setEnabled(false);
+            break;
     }
 }
 
-void inputActionToggled(uint8_t input) {
-    if (input == BUTTON_THERMOMETER_TOGGLE) {
-        Thermometer::toggleEnabled();
-    } else if (input == BUTTON_STOP_WATCH_TOGGLE) {
-        StopWatch::toggleEnabled();
-    } else if (input == BUTTON_LIGHTING_TOGGLE) {
-        Lighting::toggleEnabled();
+void inputActionReleased(uint8_t input) {
+    switch (input) {
+        case BUTTON_LIGHTING_TOGGLE:
+            Lighting::setEnabled(true);
+            break;
+        case BUTTON_SPEAKER_TOGGLE:
+            Speaker::setEnabled(true);
+            break;
     }
 }
