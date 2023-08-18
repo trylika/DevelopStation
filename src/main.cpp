@@ -1,8 +1,8 @@
 #include "main.h"
 
 void setup(void) {
-    //Serial.begin(9600);
-    //Serial.print("Temperature = "); Serial.print(temperatureCelcius); Serial.println(" Celsius");
+    Serial.begin(115200);
+    // Serial.print("Temperature = "); Serial.print(temperatureCelcius); Serial.println(" Celsius");
 
     Timer::setup();
     Displays::setup();

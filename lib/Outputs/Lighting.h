@@ -7,8 +7,8 @@
 #define LIGHTING_PIN 10
 
 namespace Lighting {
-  void setup();
-  void toggleEnabled();
+    void setup();
+    void toggleEnabled();
 }
 
 #endif

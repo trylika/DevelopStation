@@ -98,9 +98,9 @@
 #define SPEAKER_PIN 9
 
 namespace Speaker {
-  void toggleEnabled();
-  void play();
-  void playLong();
+    void toggleEnabled();
+    void play();
+    void playLong();
 }
 
 #endif

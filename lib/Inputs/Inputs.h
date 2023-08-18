@@ -21,22 +21,22 @@
 #define ENCODER_TIME_PIN_2 1
 
 namespace Inputs {
-  const uint8_t buttonCount = 6;
-  const uint8_t buttonPins[buttonCount] = {
-    BUTTON_THERMOMETER_TOGGLE,
-    BUTTON_STOP_WATCH_TOGGLE,
-    BUTTON_STOP_WATCH_START_PAUSE,
-    BUTTON_STOP_WATCH_STOP,
-    BUTTON_STOP_WATCH_ALARM_SELECTOR_PRECISION,
-    BUTTON_LIGHTING_TOGGLE,
-  };
+    const uint8_t buttonCount = 6;
+    const uint8_t buttonPins[buttonCount] = {
+        BUTTON_THERMOMETER_TOGGLE,
+        BUTTON_STOP_WATCH_TOGGLE,
+        BUTTON_STOP_WATCH_START_PAUSE,
+        BUTTON_STOP_WATCH_STOP,
+        BUTTON_STOP_WATCH_ALARM_SELECTOR_PRECISION,
+        BUTTON_LIGHTING_TOGGLE,
+    };
 
-  void update();
-  void processPressed(void (*action)(uint8_t));
-  void processReleased(void (*action)(uint8_t));
-  void processToggled(void (*action)(uint8_t));
-  int32_t readEncoder();
-  void resetEncoder();
+    void update();
+    void processPressed(void (*action)(uint8_t));
+    void processReleased(void (*action)(uint8_t));
+    void processToggled(void (*action)(uint8_t));
+    int32_t readEncoder();
+    void resetEncoder();
 }
 
 #endif

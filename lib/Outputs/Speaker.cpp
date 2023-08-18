@@ -1,25 +1,25 @@
 #include "Speaker.h"
 
 namespace Speaker {
-  bool enabled = true;
+    bool enabled = true;
 
-  void toggleEnabled() {
-    enabled = !enabled;
-  }
-
-  void play() {
-    if (!enabled) {
-      return;
+    void toggleEnabled() {
+        enabled = !enabled;
     }
 
-    // TimerFreeTone(SPEAKER_PIN, NOTE_C4, 100);
-  }
+    void play() {
+        if (!enabled) {
+            return;
+        }
 
-  void playLong() {
-    if (!enabled) {
-      return;
+        // TimerFreeTone(SPEAKER_PIN, NOTE_C4, 100);
     }
 
-    // TimerFreeTone(SPEAKER_PIN, NOTE_C4, 500);
-  }
+    void playLong() {
+        if (!enabled) {
+            return;
+        }
+
+        // TimerFreeTone(SPEAKER_PIN, NOTE_C4, 500);
+    }
 }
