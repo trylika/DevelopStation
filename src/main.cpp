@@ -20,6 +20,8 @@ void loop(void) {
     Thermometer::update();
 
     StopWatch::update();
+
+    Speaker::update();
 }
 
 void inputActionPressed(uint8_t input) {
