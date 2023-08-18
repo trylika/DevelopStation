@@ -5,6 +5,7 @@ void setup(void) {
     Serial.begin(115200);
 
     // Inputs
+    // Inputs::setup();
     Timer::setup();
     Thermometer::setup();
 
@@ -12,20 +13,28 @@ void setup(void) {
     Displays::setup();
     Lighting::setup();
     Speaker::setup();
+
+    // StopWatch
+    // StopWatch::setup();
 }
 
 void loop(void) {
-    Timer::update();
-
+    // Inputs
     Inputs::update();
     Inputs::processPressed(&inputActionPressed);
     Inputs::processReleased(&inputActionReleased);
 
     Thermometer::update();
 
-    StopWatch::update();
+    Timer::update();
 
+    // Outputs
+    // Displays::update();
+    // Lighting::update();
     Speaker::update();
+
+    // StopWatch
+    StopWatch::update();
 }
 
 void inputActionPressed(uint8_t input) {

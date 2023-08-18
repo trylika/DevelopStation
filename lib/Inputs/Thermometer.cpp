@@ -10,14 +10,16 @@ namespace Thermometer {
     void setup() {
         sensors.begin();
         sensors.setResolution(SENSOR_RESOLUTION);
+        sensors.setWaitForConversion(false);
     }
 
-    void update(bool force) {
-        if (!force && (!Timer::updateHalfSecond)) {
+    void update() {
+        if (!Timer::updateHalfSecond) {
             return;
         }
 
         sensors.requestTemperaturesByAddress(sensorAddress1);
+        // sensors.isConversionComplete();
         temperatureCelcius = sensors.getTempC(sensorAddress1);
         uint16_t temperatureCelciusDisplayable = (uint16_t)(temperatureCelcius * 100.0);
         temperatureCelciusDisplayable = constrain(temperatureCelciusDisplayable, 0, 9999);

@@ -13,9 +13,9 @@ namespace Timer {
     extern bool updateHalfSecond;
     extern bool updateSecond;
 
-    void timedInterrupt();
     void setup();
     void update();
+    void timedInterrupt();
 }
 
 #endif

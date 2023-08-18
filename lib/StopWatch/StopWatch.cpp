@@ -1,8 +1,6 @@
 #include "StopWatch.h"
 
 namespace StopWatch {
-    bool enabled = true;
-
     uint8_t mode = STOP_WATCH_MODE_SELECT;
     bool blinking = false;
 
@@ -18,10 +16,6 @@ namespace StopWatch {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     void update(bool force) {
-        if (!enabled) {
-            return;
-        }
-
         switch (mode) {
             case STOP_WATCH_MODE_SELECT:
                 alarmSelector();
@@ -127,7 +121,7 @@ namespace StopWatch {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     void toggleAlarmSelectorPrecision() {
-        if (!enabled || (mode != STOP_WATCH_MODE_SELECT && mode != STOP_WATCH_MODE_STOPPED)) {
+        if (mode != STOP_WATCH_MODE_SELECT && mode != STOP_WATCH_MODE_STOPPED) {
             return;
         }
 
@@ -145,7 +139,7 @@ namespace StopWatch {
     }
 
     void alarmSelector() {
-        if (!enabled || (mode != STOP_WATCH_MODE_SELECT && mode != STOP_WATCH_MODE_STOPPED)) {
+        if (mode != STOP_WATCH_MODE_SELECT && mode != STOP_WATCH_MODE_STOPPED) {
             return;
         }
 
@@ -168,10 +162,6 @@ namespace StopWatch {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     void startPauseAction() {
-        if (!enabled) {
-            return;
-        }
-
         switch (mode) {
             case STOP_WATCH_MODE_SELECT:
                 start();
@@ -189,10 +179,6 @@ namespace StopWatch {
     }
 
     void stopAction() {
-        if (!enabled) {
-            return;
-        }
-
         switch (mode) {
             case STOP_WATCH_MODE_RUNNING:
             case STOP_WATCH_MODE_PAUSED:

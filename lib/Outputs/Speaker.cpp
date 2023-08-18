@@ -11,6 +11,10 @@ namespace Speaker {
     }
 
     void update() {
+        if (!enabled) {
+            return;
+        }
+
         rtttl::play();
     }
 

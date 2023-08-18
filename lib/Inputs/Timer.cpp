@@ -10,10 +10,6 @@ namespace Timer {
     bool updateHalfSecond = false;
     bool updateSecond = false;
 
-    void timedInterrupt() {
-        intCount++;
-    }
-
     void setup() {
         Timer1.initialize(TIMER_INTERRUPT_DELAY);
         Timer1.attachInterrupt(timedInterrupt);
@@ -30,5 +26,9 @@ namespace Timer {
         updateSecond = (lastCount / 4 != secondsCount);
 
         lastCount = quarterSecondsCount;
+    }
+
+    void timedInterrupt() {
+        intCount++;
     }
 }

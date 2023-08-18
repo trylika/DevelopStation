@@ -20,11 +20,11 @@
 #define DISPLAY_VALUE_TWO_DIO 19
 
 namespace Displays {
-    const uint8_t displayFull[] = {0b01111111, 0b01111111, 0b01111111, 0b01111111};
-    const uint8_t displayNoData[] = {0b01000000, 0b01000000, 0b01000000, 0b01000000};
-    const uint8_t displayClear[] = {0x00, 0x00, 0x00, 0x00};
-    const uint8_t displayNoDot = 0b00000000;
-    const uint8_t displayMiddleDot = 0b01000000;
+    extern const uint8_t displayFull[];
+    extern const uint8_t displayNoData[];
+    extern const uint8_t displayClear[];
+    extern const uint8_t displayNoDot;
+    extern const uint8_t displayMiddleDot;
 
     void setup();
     void update(uint8_t id, uint32_t data = 0, uint8_t dots = 0);

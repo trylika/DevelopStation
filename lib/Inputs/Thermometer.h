@@ -15,7 +15,7 @@ namespace Thermometer {
     extern float temperatureCelcius;
 
     void setup();
-    void update(bool force = false);
+    void update();
 }
 
 #endif
