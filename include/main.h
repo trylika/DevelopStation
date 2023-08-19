@@ -6,7 +6,7 @@
 #include <Inputs.h>
 #include <Speaker.h>
 #include <Displays.h>
-#include <Thermometer.h>
+#include <Thermometers.h>
 #include <StopWatch.h>
 #include <Lighting.h>
 

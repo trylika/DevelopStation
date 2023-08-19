@@ -5,7 +5,6 @@ namespace Timer {
     uint32_t lastCount = 0;
 
     uint32_t quarterSecondsCount = 0;
-    uint32_t secondsCount = 0;
     bool updateQuarterSecond = false;
     bool updateHalfSecond = false;
     bool updateSecond = false;
@@ -22,8 +21,7 @@ namespace Timer {
 
         updateQuarterSecond = (lastCount != quarterSecondsCount);
         updateHalfSecond = (lastCount / 2 != quarterSecondsCount / 2);
-        secondsCount = quarterSecondsCount / 4;
-        updateSecond = (lastCount / 4 != secondsCount);
+        updateSecond = (lastCount / 4 != quarterSecondsCount / 4);
 
         lastCount = quarterSecondsCount;
     }

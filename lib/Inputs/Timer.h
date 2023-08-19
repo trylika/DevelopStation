@@ -8,7 +8,6 @@
 
 namespace Timer {
     extern uint32_t quarterSecondsCount;
-    extern uint32_t secondsCount;
     extern bool updateQuarterSecond;
     extern bool updateHalfSecond;
     extern bool updateSecond;

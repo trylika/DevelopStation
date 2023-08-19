@@ -20,7 +20,7 @@ namespace Displays {
         }
     }
 
-    void update(uint8_t id, uint32_t data, uint8_t dots) {
+    void update(uint8_t id, int32_t data, uint8_t dots) {
         displays[id].showNumberDecEx(data, dots, true);
     }
 
@@ -36,6 +36,14 @@ namespace Displays {
         uint32_t seconds = (int)(secondsToDisplay % 60);
         uint32_t minutes = (int)(secondsToDisplay / 60);
 
-        return minutes * 100 + seconds;
+        // Max displayable time 99minutes 59seconds, or 5999 seconds
+        return constrain(minutes * 100 + seconds, 0, 9959);
+    }
+
+    int32_t calculateDisplayableTemp(float temperature) {
+        int32_t temperatureCelciusDisplayable = (int32_t)(temperature * 100.0);
+
+        // Max displayable temperature -9.99C - 99.99C
+        return constrain(temperatureCelciusDisplayable, -999, 9999);
     }
 }

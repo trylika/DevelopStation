@@ -5,9 +5,9 @@ void setup(void) {
     Serial.begin(115200);
 
     // Inputs
-    // Inputs::setup();
+    Inputs::setup();
     Timer::setup();
-    Thermometer::setup();
+    Thermometers::setup();
 
     // Outputs
     Displays::setup();
@@ -24,11 +24,36 @@ void loop(void) {
     Inputs::processPressed(&inputActionPressed);
     Inputs::processReleased(&inputActionReleased);
 
-    Thermometer::update();
+    Thermometers::update();
 
     Timer::update();
 
     // Outputs
+    if (Timer::updateHalfSecond) {
+        for (int i = 0;  i < Thermometers::devicesCount;  i++) {
+            if (Thermometers::devicesStatus[i]) {
+                if (i == 0) {
+                    Displays::update(
+                        DISPLAY_VALUE_ONE_ID,
+                        Displays::calculateDisplayableTemp(Thermometers::temperatures[i]),
+                        Displays::displayMiddleDot
+                    );
+                } else {
+                    Displays::update(
+                        DISPLAY_VALUE_TWO_ID,
+                        Displays::calculateDisplayableTemp(Thermometers::temperatures[i]),
+                        Displays::displayMiddleDot
+                    );
+                }
+            } else {
+                if (i == 0) {
+                    Displays::noData(DISPLAY_VALUE_ONE_ID);
+                } else {
+                    Displays::noData(DISPLAY_VALUE_TWO_ID);
+                }
+            }
+        }
+    }
     // Displays::update();
     // Lighting::update();
     Speaker::update();

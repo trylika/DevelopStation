@@ -27,10 +27,11 @@ namespace Displays {
     extern const uint8_t displayMiddleDot;
 
     void setup();
-    void update(uint8_t id, uint32_t data = 0, uint8_t dots = 0);
+    void update(uint8_t id, int32_t data = 0, uint8_t dots = 0);
     void clear(uint8_t id);
     void noData(uint8_t id);
     int32_t calculateDisplayableTime(int32_t secondsToDisplay);
+    int32_t calculateDisplayableTemp(float temperature);
 }
 
 #endif
