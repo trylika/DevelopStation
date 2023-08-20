@@ -29,33 +29,31 @@ void loop(void) {
     Timer::update();
 
     // Outputs
+    // Displays::update(); - update per display
     if (Timer::updateHalfSecond) {
-        for (uint8_t i = 0;  i < Thermometers::devicesCount;  i++) {
-            if (Thermometers::devicesStatus[i]) {
-                if (i == 0) {
-                    Displays::update(
-                        DISPLAY_VALUE_ONE_ID,
-                        Displays::calculateDisplayableTemp(Thermometers::temperatures[i]),
-                        Displays::displayMiddleDot
-                    );
-                } else {
-                    Displays::update(
-                        DISPLAY_VALUE_TWO_ID,
-                        Displays::calculateDisplayableTemp(Thermometers::temperatures[i]),
-                        Displays::displayMiddleDot
-                    );
-                }
-            } else {
-                if (i == 0) {
-                    Displays::noData(DISPLAY_VALUE_ONE_ID);
-                } else {
-                    Displays::noData(DISPLAY_VALUE_TWO_ID);
-                }
-            }
+        // DISPLAY_VALUE_ONE_ID
+        if (Thermometers::devicesStatus[SENSOR_ONE]) {
+            Displays::update(
+                DISPLAY_VALUE_ONE_ID,
+                Displays::calculateDisplayableTemp(Thermometers::temperatures[SENSOR_ONE]),
+                Displays::displayMiddleDot
+            );
+        } else {
+            Displays::noData(DISPLAY_VALUE_ONE_ID);
+        }
+
+        // DISPLAY_VALUE_TWO_ID
+        if (Thermometers::devicesStatus[SENSOR_TWO]) {
+            Displays::update(
+                DISPLAY_VALUE_TWO_ID,
+                Displays::calculateDisplayableTemp(Thermometers::temperatures[SENSOR_TWO]),
+                Displays::displayMiddleDot
+            );
+        } else {
+            Displays::noData(DISPLAY_VALUE_TWO_ID);
         }
     }
-    // Displays::update();
-    // Lighting::update();
+    // Lighting::update(); - nothing to update
     Speaker::update();
 
     // StopWatch

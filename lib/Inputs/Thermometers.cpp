@@ -9,12 +9,12 @@ namespace Thermometers {
     DallasTemperature sensors(&oneWire);
     DeviceAddress devices[SENSOR_MAX_COUNT];
 
-    DeviceAddress knownDevices[2] = {
+    DeviceAddress knownDevices[CAL_DEVICES_COUNT] = {
         {0x28, 0x5F, 0x57, 0x77, 0x91, 0x3, 0x2, 0x94},
         {0x28, 0x5F, 0xE6, 0x76, 0xE0, 0x01, 0x3C, 0xED},
     };
     // ReferenceLow, ReferenceHigh, RawLow, RawHigh
-    const float sensorCalibration[2][4] = {
+    const float sensorCalibration[CAL_DEVICES_COUNT][4] = {
         {0.0f, 100.0f, 0.0f, 100.0f},
         {0.0f, 100.0f, 0.0f, 100.0f},
     };
@@ -59,7 +59,7 @@ namespace Thermometers {
 
     bool compareDeviceAddresses(DeviceAddress device1, DeviceAddress device2) {
         bool equal = true;
-        for (uint8_t i = 0; i < 8; i++) {
+        for (uint8_t i = 0; i < sizeof(DeviceAddress); i++) {
             if (device1[i] != device2[i]) {
                 equal = false;
                 break;
@@ -70,15 +70,15 @@ namespace Thermometers {
     }
 
     float getTempCalibrated(DeviceAddress device) {
+        float temperature = sensors.getTempC(device);
+
         uint8_t foundIndex = 255;
-        for (uint8_t i = 0; i < sizeof(knownDevices)/sizeof(knownDevices[0]); i++) {
+        for (uint8_t i = 0; i < CAL_DEVICES_COUNT; i++) {
             if (compareDeviceAddresses(knownDevices[i], device)) {
                 foundIndex = i;
                 break;
             }
         }
-
-        float temperature = sensors.getTempC(device);
 
         if (foundIndex != 255) {
             float rawRange =
