@@ -30,7 +30,7 @@ void loop(void) {
 
     // Outputs
     if (Timer::updateHalfSecond) {
-        for (int i = 0;  i < Thermometers::devicesCount;  i++) {
+        for (uint8_t i = 0;  i < Thermometers::devicesCount;  i++) {
             if (Thermometers::devicesStatus[i]) {
                 if (i == 0) {
                     Displays::update(

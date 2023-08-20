@@ -26,7 +26,7 @@ namespace Inputs {
     }
 
     void update() {
-        for (int i = 0; i < buttonCount; i++) {
+        for (uint8_t i = 0; i < buttonCount; i++) {
             uint32_t ms = millis();
             int buttonValue = (bool)mux.read(buttonPins[i]);
             buttonValue = !buttonValue;
@@ -45,7 +45,7 @@ namespace Inputs {
     }
 
     void processPressed(void (*action)(uint8_t)) {
-        for(int i = 0; i < buttonCount; i++) {
+        for (uint8_t i = 0; i < buttonCount; i++) {
             if(buttonState[i] && buttonChanged[i]) {
                 action(buttonPins[i]);
             }
@@ -53,7 +53,7 @@ namespace Inputs {
     }
 
     void processReleased(void (*action)(uint8_t)) {
-        for(int i = 0; i < buttonCount; i++) {
+        for (uint8_t i = 0; i < buttonCount; i++) {
             if(!buttonState[i] && buttonChanged[i]) {
                 action(buttonPins[i]);
             }
@@ -61,7 +61,7 @@ namespace Inputs {
     }
 
     void processChanged(void (*action)(uint8_t)) {
-        for(int i = 0; i < buttonCount; i++) {
+        for (uint8_t i = 0; i < buttonCount; i++) {
             if(buttonChanged[i]) {
                 action(buttonPins[i]);
             }
