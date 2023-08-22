@@ -23,6 +23,7 @@ void loop(void) {
     Inputs::update();
     Inputs::processPressed(&inputActionPressed);
     Inputs::processReleased(&inputActionReleased);
+    StopWatch::alarmSelectorAction();
 
     Thermometers::update();
 
@@ -65,11 +66,11 @@ void inputActionPressed(uint8_t input) {
         case BUTTON_STOP_WATCH_START_PAUSE:
             StopWatch::startPauseAction();
             break;
-        case BUTTON_STOP_WATCH_STOP:
-            StopWatch::stopAction();
+        case BUTTON_STOP_WATCH_STOP_RESET:
+            StopWatch::stopResetAction();
             break;
         case BUTTON_STOP_WATCH_ALARM_SELECTOR_PRECISION:
-            StopWatch::toggleAlarmSelectorPrecision();
+            StopWatch::alarmSelectorPrecisionAction();
             break;
         case BUTTON_LIGHTING_TOGGLE:
             Lighting::setEnabled(false);

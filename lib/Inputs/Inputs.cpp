@@ -11,7 +11,7 @@ namespace Inputs {
     const uint8_t buttonCount = 5;
     const uint8_t buttonPins[buttonCount] = {
         BUTTON_STOP_WATCH_START_PAUSE,
-        BUTTON_STOP_WATCH_STOP,
+        BUTTON_STOP_WATCH_STOP_RESET,
         BUTTON_STOP_WATCH_ALARM_SELECTOR_PRECISION,
         BUTTON_LIGHTING_TOGGLE,
         BUTTON_SPEAKER_TOGGLE,

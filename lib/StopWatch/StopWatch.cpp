@@ -1,6 +1,8 @@
 #include "StopWatch.h"
 
 namespace StopWatch {
+    const uint8_t alarmSelectorPrecisions[STOP_WATCH_ALARM_SELECTOR_PRECISIONS] = {60, 10, 1};
+
     uint8_t mode = STOP_WATCH_MODE_SELECT;
     bool blinking = false;
 
@@ -15,78 +17,49 @@ namespace StopWatch {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void update(bool force) {
+    void update() {
         switch (mode) {
             case STOP_WATCH_MODE_SELECT:
-                alarmSelector();
-                updateAlarmDisplay(force);
+                updateTimeDisplay();
                 break;
             case STOP_WATCH_MODE_RUNNING:
                 advanceTime();
-                updateDisplayableDot();
-                updateTimeDisplay(force);
+                updateTimeDisplay();
                 processAlarm();
                 break;
             case STOP_WATCH_MODE_PAUSED:
+                updateTimeDisplay();
+                break;
             case STOP_WATCH_MODE_STOPPED:
-                alarmSelector();
-                updateStaticTimeDisplay(force);
+                updateTimeDisplay();
                 break;
         }
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void updateDisplayableDot() {
-        if (mode != STOP_WATCH_MODE_RUNNING || !Timer::updateHalfSecond) {
-            return;
-        }
-
-        timeDisplayableDot = timeDisplayableDot == Displays::displayNoDot ? Displays::displayMiddleDot : Displays::displayNoDot;
-    }
-
     void updateTimeDisplay(bool force) {
-        if (!force && !Timer::updateQuarterSecond) {
-            return;
+        if (mode != STOP_WATCH_MODE_RUNNING) {
+            timeDisplayableDot = Displays::displayMiddleDot;
+        } else if (Timer::updateHalfSecond) {
+            timeDisplayableDot = timeDisplayableDot == Displays::displayNoDot ? Displays::displayMiddleDot : Displays::displayNoDot;
         }
 
-        Displays::update(
-            DISPLAY_CLOCK_ID,
-            Displays::calculateDisplayableTime(getTimeToShow()),
-            timeDisplayableDot
-        );
-    }
-
-    void updateStaticTimeDisplay(bool force) {
-        if (!force && !Timer::updateHalfSecond) {
-            return;
-        }
-
-        if (mode == STOP_WATCH_MODE_STOPPED) {
+        if (mode == STOP_WATCH_MODE_STOPPED && Timer::updateHalfSecond) {
             blinking = !blinking;
         }
 
-        if (blinking && mode == STOP_WATCH_MODE_STOPPED) {
-            Displays::clear(DISPLAY_CLOCK_ID);
-        } else {
-            Displays::update(
-                DISPLAY_CLOCK_ID,
-                Displays::calculateDisplayableTime(getTimeToShow()),
-                Displays::displayMiddleDot
-            );
+        if (force || Timer::updateQuarterSecond) {
+            if (blinking && mode == STOP_WATCH_MODE_STOPPED) {
+                Displays::clear(DISPLAY_CLOCK_ID);
+            } else {
+                Displays::update(
+                    DISPLAY_CLOCK_ID,
+                    Displays::calculateDisplayableTime(getTimeToShow()),
+                    timeDisplayableDot
+                );
+            }
         }
-    }
-
-    void updateAlarmDisplay(bool force) {
-        if (!force && !Timer::updateHalfSecond) {
-            return;
-        }
-
-        Displays::update(
-            DISPLAY_CLOCK_ID,
-            Displays::calculateDisplayableTime(alarmTime),
-            Displays::displayMiddleDot
-        );
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,47 +93,6 @@ namespace StopWatch {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void toggleAlarmSelectorPrecision() {
-        if (mode != STOP_WATCH_MODE_SELECT && mode != STOP_WATCH_MODE_STOPPED) {
-            return;
-        }
-
-        if (mode == STOP_WATCH_MODE_STOPPED) {
-            reset();
-            return;
-        }
-
-        alarmSelectorPrecisionSelected++;
-        if (alarmSelectorPrecisionSelected == STOP_WATCH_ALARM_SELECTOR_PRECISIONS) {
-            alarmSelectorPrecisionSelected = 0;
-        }
-        alarmInputLast = 0;
-        Inputs::resetEncoder();
-    }
-
-    void alarmSelector() {
-        if (mode != STOP_WATCH_MODE_SELECT && mode != STOP_WATCH_MODE_STOPPED) {
-            return;
-        }
-
-        int32_t alarmInput = Inputs::readEncoder() * alarmSelectorPrecisions[alarmSelectorPrecisionSelected];
-        int32_t alarmInputDiff = 0;
-        if (alarmInput != alarmInputLast) {
-            if (mode == STOP_WATCH_MODE_STOPPED) {
-                reset();
-                return;
-            }
-
-            alarmInputDiff = alarmInput - alarmInputLast;
-            alarmInputLast = alarmInput;
-
-            alarmTime = constrain(alarmTime + alarmInputDiff, 0, 5999); // Max displayable time 99minutes 59seconds
-            updateAlarmDisplay(true);
-        }
-    }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
     void startPauseAction() {
         switch (mode) {
             case STOP_WATCH_MODE_SELECT:
@@ -178,7 +110,7 @@ namespace StopWatch {
         }
     }
 
-    void stopAction() {
+    void stopResetAction() {
         switch (mode) {
             case STOP_WATCH_MODE_RUNNING:
             case STOP_WATCH_MODE_PAUSED:
@@ -188,6 +120,50 @@ namespace StopWatch {
             case STOP_WATCH_MODE_STOPPED:
                 reset();
                 break;
+        }
+    }
+
+    void alarmSelectorPrecisionAction() {
+        switch (mode) {
+            case STOP_WATCH_MODE_SELECT:
+                alarmSelectorPrecisionSelected++;
+                if (alarmSelectorPrecisionSelected == STOP_WATCH_ALARM_SELECTOR_PRECISIONS) {
+                    alarmSelectorPrecisionSelected = 0;
+                }
+
+                alarmInputLast = 0;
+                Inputs::resetEncoder();
+                break;
+            case STOP_WATCH_MODE_RUNNING:
+            case STOP_WATCH_MODE_PAUSED:
+                break;
+            case STOP_WATCH_MODE_STOPPED:
+                reset();
+                break;
+        }
+    }
+
+    void alarmSelectorAction() {
+        if (mode != STOP_WATCH_MODE_SELECT && mode != STOP_WATCH_MODE_STOPPED) {
+            return;
+        }
+
+        int32_t alarmInput = Inputs::readEncoder() * alarmSelectorPrecisions[alarmSelectorPrecisionSelected];
+        if (alarmInput == alarmInputLast) { //Encoder did not change
+            return;
+        }
+
+        if (mode == STOP_WATCH_MODE_STOPPED) {
+            reset();
+            return;
+        }
+
+        if (mode == STOP_WATCH_MODE_SELECT) {
+            int32_t alarmInputDiff = alarmInput - alarmInputLast;
+            alarmInputLast = alarmInput;
+
+            alarmTime = constrain(alarmTime + alarmInputDiff, 0, 5999); // Max displayable time 99minutes 59seconds
+            updateTimeDisplay(true);
         }
     }
 
