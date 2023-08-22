@@ -16,12 +16,11 @@
 
 namespace StopWatch {
     void update();
-
-    void updateTimeDisplay(bool force = false);
+    void updateDisplay(bool force = false);
 
     void advanceTime();
-    int32_t getTimeToShow();
     void processAlarm();
+    int32_t getTimeToShow();
 
     void startPauseAction();
     void stopResetAction();

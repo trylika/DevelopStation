@@ -13,9 +13,6 @@ void setup(void) {
     Displays::setup();
     Lighting::setup();
     Speaker::setup();
-
-    // StopWatch
-    // StopWatch::setup();
 }
 
 void loop(void) {
@@ -26,35 +23,11 @@ void loop(void) {
     StopWatch::alarmSelectorAction();
 
     Thermometers::update();
-
     Timer::update();
 
     // Outputs
-    // Displays::update(); - update per display
-    if (Timer::updateHalfSecond) {
-        // DISPLAY_VALUE_ONE_ID
-        if (Thermometers::devicesStatus[SENSOR_ONE]) {
-            Displays::update(
-                DISPLAY_VALUE_ONE_ID,
-                Displays::calculateDisplayableTemp(Thermometers::temperatures[SENSOR_ONE]),
-                Displays::displayMiddleDot
-            );
-        } else {
-            Displays::noData(DISPLAY_VALUE_ONE_ID);
-        }
-
-        // DISPLAY_VALUE_TWO_ID
-        if (Thermometers::devicesStatus[SENSOR_TWO]) {
-            Displays::update(
-                DISPLAY_VALUE_TWO_ID,
-                Displays::calculateDisplayableTemp(Thermometers::temperatures[SENSOR_TWO]),
-                Displays::displayMiddleDot
-            );
-        } else {
-            Displays::noData(DISPLAY_VALUE_TWO_ID);
-        }
-    }
-    // Lighting::update(); - nothing to update
+    Thermometers::updateDisplay();
+    StopWatch::updateDisplay();
     Speaker::update();
 
     // StopWatch

@@ -18,27 +18,13 @@ namespace StopWatch {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     void update() {
-        switch (mode) {
-            case STOP_WATCH_MODE_SELECT:
-                updateTimeDisplay();
-                break;
-            case STOP_WATCH_MODE_RUNNING:
-                advanceTime();
-                updateTimeDisplay();
-                processAlarm();
-                break;
-            case STOP_WATCH_MODE_PAUSED:
-                updateTimeDisplay();
-                break;
-            case STOP_WATCH_MODE_STOPPED:
-                updateTimeDisplay();
-                break;
+        if (mode == STOP_WATCH_MODE_RUNNING) {
+            advanceTime();
+            processAlarm();
         }
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    void updateTimeDisplay(bool force) {
+    void updateDisplay(bool force) {
         if (mode != STOP_WATCH_MODE_RUNNING) {
             timeDisplayableDot = Displays::displayMiddleDot;
         } else if (Timer::updateHalfSecond) {
@@ -68,26 +54,22 @@ namespace StopWatch {
         timePassed = (Timer::quarterSecondsCount - timeStartedAt) / 4;
     }
 
+    void processAlarm() {
+        if (alarmTime != 0 && timePassed >= alarmTime) {
+            stop();
+            Speaker::playLong();
+        }
+
+        if ((getTimeToShow() % 60) > 50 && Timer::updateSecond) {
+            Speaker::playShort();
+        }
+    }
+
     int32_t getTimeToShow() {
         if (alarmTime == 0) {
             return timePassed;
         } else {
             return alarmTime - timePassed;
-        }
-    }
-
-    void processAlarm() {
-        if ((timePassed % 60) > 50 && Timer::updateSecond) {
-            Speaker::playShort();
-        }
-
-        if (alarmTime == 0) {
-            return;
-        }
-
-        if (timePassed >= alarmTime) {
-            stop();
-            Speaker::playLong();
         }
     }
 
@@ -163,7 +145,7 @@ namespace StopWatch {
             alarmInputLast = alarmInput;
 
             alarmTime = constrain(alarmTime + alarmInputDiff, 0, 5999); // Max displayable time 99minutes 59seconds
-            updateTimeDisplay(true);
+            updateDisplay(true);
         }
     }
 

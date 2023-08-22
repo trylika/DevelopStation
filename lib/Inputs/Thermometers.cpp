@@ -57,6 +57,32 @@ namespace Thermometers {
         }
     }
 
+    void updateDisplay() {
+        if (Timer::updateHalfSecond) {
+            // DISPLAY_VALUE_ONE_ID
+            if (devicesStatus[SENSOR_ONE]) {
+                Displays::update(
+                    DISPLAY_VALUE_ONE_ID,
+                    Displays::calculateDisplayableTemp(temperatures[SENSOR_ONE]),
+                    Displays::displayMiddleDot
+                );
+            } else {
+                Displays::noData(DISPLAY_VALUE_ONE_ID);
+            }
+
+            // DISPLAY_VALUE_TWO_ID
+            if (devicesStatus[SENSOR_TWO]) {
+                Displays::update(
+                    DISPLAY_VALUE_TWO_ID,
+                    Displays::calculateDisplayableTemp(temperatures[SENSOR_TWO]),
+                    Displays::displayMiddleDot
+                );
+            } else {
+                Displays::noData(DISPLAY_VALUE_TWO_ID);
+            }
+        }
+    }
+
     bool compareDeviceAddresses(DeviceAddress device1, DeviceAddress device2) {
         bool equal = true;
         for (uint8_t i = 0; i < sizeof(DeviceAddress); i++) {

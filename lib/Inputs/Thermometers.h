@@ -5,6 +5,7 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <Timer.h>
+#include <Displays.h>
 
 #define ONEWIRE_PIN 15
 #define SENSOR_RESOLUTION 12
@@ -25,6 +26,7 @@ namespace Thermometers {
 
     void setup();
     void update();
+    void updateDisplay();
     bool compareDeviceAddresses(DeviceAddress device1, DeviceAddress device2);
     float getTempCalibrated(DeviceAddress device);
 }
