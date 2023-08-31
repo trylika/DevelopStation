@@ -10,13 +10,13 @@ namespace Thermometers {
     DeviceAddress devices[SENSOR_MAX_COUNT];
 
     DeviceAddress knownDevices[CAL_DEVICES_COUNT] = {
-        {0x28, 0x5F, 0x57, 0x77, 0x91, 0x3, 0x2, 0x94},
+        {0x28, 0x5F, 0x57, 0x77, 0x91, 0x30, 0x20, 0x94},
         {0x28, 0x5F, 0xE6, 0x76, 0xE0, 0x01, 0x3C, 0xED},
     };
     // ReferenceLow, ReferenceHigh, RawLow, RawHigh
     const float sensorCalibration[CAL_DEVICES_COUNT][4] = {
-        {0.0f, 100.0f, 0.0f, 100.0f},
-        {0.0f, 100.0f, 0.0f, 100.0f},
+        {0.01f, 99.43f, 0.22f, 98.43f},
+        {0.01f, 99.43f, 0.50f, 99.87f},
     };
 
     void setup() {

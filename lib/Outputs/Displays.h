@@ -16,8 +16,8 @@
 #define DISPLAY_VALUE_ONE_DIO 20
 
 #define DISPLAY_VALUE_TWO_ID 2
-#define DISPLAY_VALUE_TWO_CLK 18
-#define DISPLAY_VALUE_TWO_DIO 19
+#define DISPLAY_VALUE_TWO_CLK 20
+#define DISPLAY_VALUE_TWO_DIO 21
 
 namespace Displays {
     extern const uint8_t displayFull[];
