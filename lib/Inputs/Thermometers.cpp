@@ -15,8 +15,8 @@ namespace Thermometers {
     };
     // ReferenceLow, ReferenceHigh, RawLow, RawHigh
     const float sensorCalibration[CAL_DEVICES_COUNT][4] = {
-        {0.01f, 99.43f, 0.22f, 98.43f},
-        {0.01f, 99.43f, 0.50f, 99.87f},
+        {0.01f, 99.43f, 0.15f, 98.43f},
+        {0.01f, 99.43f, 0.15f, 99.87f},
     };
 
     void setup() {
